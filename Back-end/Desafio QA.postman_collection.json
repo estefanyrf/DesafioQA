@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "de0bbc2a-361a-4426-8b86-0310a80eb034",
+		"name": "Desafio QA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {test, expect, response} = pm;\r",
+									"const res = response.json();\r",
+									"\r",
+									"test(\"Status code is 200\", () => {\r",
+									"    response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Code is 201\", () => {\r",
+									"    expect(res.code).to.be.equal(201);\r",
+									"});\r",
+									"\r",
+									"test(\"Get user id\", () => {\r",
+									"    postman.setGlobalVariable('userCreatedId', response.json().data.id);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Desafio QA {{$randomInt}}\",\r\n    \"gender\": \"female\",\r\n    \"email\": \"DesafioQA@{{$randomInt}}.com\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user informations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {test, expect, response} = pm;\r",
+									"const res = response.json();\r",
+									"\r",
+									"test(\"Status code is 200\", () => {\r",
+									"    response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Code is 200\", () => {\r",
+									"    expect(res.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Get e-mail informations\", () => {\r",
+									"    postman.setGlobalVariable('nameUserCreated', response.json().data.name);\r",
+									"    postman.setGlobalVariable('emailUserCreated', response.json().data.email);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "b5d275ec1cddd3b940c8a6c4722bf7de8499e8a90055983423f1085ec952b06e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/{{userCreatedId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{userCreatedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {test, expect, response} = pm;\r",
+									"const res = response.json();\r",
+									"\r",
+									"test(\"Status code is 200\", () => {\r",
+									"    response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Code is 201\", () => {\r",
+									"    expect(res.code).to.be.equal(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Teste {{$timestamp}}\",\r\n    \"body\": \"Teste {{$timestamp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/{{userCreatedId}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{userCreatedId}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get post infotmations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {test, expect, response} = pm;\r",
+									"const res = response.json();\r",
+									"\r",
+									"test(\"Status code is 200\", () => {\r",
+									"    response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Code is 200\", () => {\r",
+									"    expect(res.code).to.be.equal(200);\r",
+									"});\r",
+									"\r",
+									"test(\"Get post informations\", () => {\r",
+									"    postman.setGlobalVariable('postId', response.json().data[0].id);\r",
+									"    postman.setGlobalVariable('postTitle', response.json().data[0].title);\r",
+									"    postman.setGlobalVariable('postBody', response.json().data[0].body);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "b5d275ec1cddd3b940c8a6c4722bf7de8499e8a90055983423f1085ec952b06e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/{{userCreatedId}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{userCreatedId}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/users?name -> Get name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const {test, expect, response} = pm;\r",
+							"const res = response.json();\r",
+							"\r",
+							"test(\"Status code is 200\", () => {\r",
+							"    response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Code is 200\", () => {\r",
+							"    expect(res.code).to.be.equal(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Validate e-mail\", () => {\r",
+							"    expect(res.email).to.be.equal(globals.emailCreatedUser);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users?name={{nameUserCreated}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{nameUserCreated}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users -> Get the id of the 5th user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const {test, expect, response} = pm;\r",
+							"const res = response.json();\r",
+							"\r",
+							"test(\"Status code is 200\", () => {\r",
+							"    response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Status code is 200\", () => {\r",
+							"    expect(res.code).to.be.equal(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Get the id of the 5th user\", () => {\r",
+							"    postman.setGlobalVariable('userId', response.json().data[4].id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users/id/posts -> Validate posts return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const {test, expect, response} = pm;\r",
+							"const res = response.json();\r",
+							"\r",
+							"test(\"Status code is 200\", () => {\r",
+							"    response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Code is 200\", () => {\r",
+							"    expect(res.code).to.be.equal(200);\r",
+							"});\r",
+							"\r",
+							"test(\"Validate body informations\", () => {\r",
+							"    expect(typeof res.data[0].id).to.be.equal('number');\r",
+							"    expect(res.data[0].id).to.be.equal(+globals.postId);\r",
+							"\r",
+							"    expect(typeof res.data[0].user_id).to.be.equal('number');\r",
+							"    expect(+res.data[0].user_id).to.be.equal(+globals.userCreatedId);\r",
+							"\r",
+							"    expect(typeof res.data[0].title).to.be.equal('string');\r",
+							"    expect(res.data[0].title).to.be.equal(globals.postTitle);\r",
+							"\r",
+							"    expect(typeof res.data[0].body).to.be.equal('string');\r",
+							"    expect(res.data[0].body).to.be.equal(globals.postBody);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/{{userCreatedId}}/posts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{userCreatedId}}",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
